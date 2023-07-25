@@ -39,7 +39,7 @@ class TaxiRequestHandlerState extends State<TaxiRequestHandler>
   var openRouteMap = 'Open Route Map';
 
   lib.Commuter? commuter;
-  int totalPassengers = 0;
+  int totalPassengers = 1;
 
   @override
   void initState() {
@@ -117,7 +117,7 @@ class TaxiRequestHandlerState extends State<TaxiRequestHandler>
       if (mounted) {
         showSnackBar(
             textStyle:
-            myTextStyleMediumLargeWithColor(context, Colors.white, 14),
+                myTextStyleMediumLargeWithColor(context, Colors.white, 14),
             message: 'Request has been sent',
             context: context);
       }
@@ -127,7 +127,7 @@ class TaxiRequestHandlerState extends State<TaxiRequestHandler>
         showSnackBar(
             backgroundColor: Colors.red,
             textStyle:
-            myTextStyleMediumLargeWithColor(context, Colors.white, 14),
+                myTextStyleMediumLargeWithColor(context, Colors.white, 14),
             message: 'Request has failed',
             context: context);
       }
@@ -156,114 +156,117 @@ class TaxiRequestHandlerState extends State<TaxiRequestHandler>
     final date = DateTime.now();
     return SafeArea(
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(taxiRequest),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _showQRCode = true;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.scanner,
-                    color: Theme
-                        .of(context)
-                        .primaryColor,
-                  ))
-            ],
-          ),
-          body: Stack(
-            children: [
-              Padding(
+      appBar: AppBar(
+        title: Text(taxiRequest),
+        actions: [
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  _showQRCode = true;
+                });
+              },
+              icon: Icon(
+                Icons.scanner,
+                color: Theme.of(context).primaryColor,
+              ))
+        ],
+      ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              shape: getRoundedBorder(radius: 16),
+              elevation: 8,
+              child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Card(
-                  shape: getRoundedBorder(radius: 16),
-                  elevation: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Taxi Route',
-                          style: myTextStyleLarge(context),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Taxi Route',
+                      style: myTextStyleLarge(context),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      '${widget.route.name}',
+                      style: myTextStyleMediumLargeWithColor(
+                          context, Theme.of(context).primaryColor, 18),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: AnalogClock(
+                        dateTime: date,
+                        isKeepTime: true,
+                        child: const Align(
+                          alignment: FractionalOffset(0.5, 0.75),
+                          child: Text('GMT+2'),
                         ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        Text(
-                          '${widget.route.name}',
-                          style: myTextStyleMediumLargeWithColor(
-                              context, Theme
-                              .of(context)
-                              .primaryColor, 18),
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        SizedBox(
-                          width: 120,
-                          height: 120,
-                          child: AnalogClock(
-                            dateTime: date,
-                            isKeepTime: true,
-                            child: const Align(
-                              alignment: FractionalOffset(0.5, 0.75),
-                              child: Text('GMT+2'),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 48,
+                    ),
+                    Card(
+                      shape: getRoundedBorder(radius: 16),
+                      elevation: 8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 160, child: Text(passengers)),
+                            const SizedBox(
+                              width: 2,
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 48,
-                        ),
-                        Card(
-                          shape: getRoundedBorder(radius: 16),
-                          elevation: 8,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                SizedBox(width: 160, child: Text(passengers)),
-                                const SizedBox(
-                                  width: 2,
-                                ),
-                                Text(
-                                  '$totalPassengers',
-                                  style: myTextStyleMediumLargeWithColor(
-                                      context, Theme
-                                      .of(context)
-                                      .primaryColor, 24),
-                                ),
-                                const SizedBox(
-                                  width: 24,
-                                ),
-                                NumberDropDown(
-                                    onNumberPicked: (n) {
-                                      setState(() {
-                                        totalPassengers = n;
-                                      });
-                                    },
-                                    count: 16,
-                                    color: Colors.white,
-                                    fontSize: 16)
-                              ],
+                            Text(
+                              '$totalPassengers',
+                              style: myTextStyleMediumLargeWithColor(
+                                  context, Theme.of(context).primaryColor, 24),
                             ),
-                          ),
+                            const SizedBox(
+                              width: 24,
+                            ),
+                            NumberDropDown(
+                                onNumberPicked: (n) {
+                                  setState(() {
+                                    totalPassengers = n;
+                                  });
+                                },
+                                count: 16,
+                                color: Colors.white,
+                                fontSize: 16)
+                          ],
                         ),
-                        const SizedBox(
-                          height: 48,
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              _navigateToRouteMap();
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 48,
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          _navigateToRouteMap();
+                        },
+                        child: Text(openRouteMap)),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    _showTimer
+                        ? BasicTimer(
+                            showProgressIndicator: true,
+                            onShowQRCode: () {
+                              setState(() {
+                                _showQRCode = true;
+                              });
                             },
-                            child: Text(openRouteMap)),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        _showTimer ? const BasicTimer() : ElevatedButton.icon(
+                          )
+                        : ElevatedButton.icon(
                             style: const ButtonStyle(
                               elevation: MaterialStatePropertyAll(12.0),
                             ),
@@ -275,48 +278,53 @@ class TaxiRequestHandlerState extends State<TaxiRequestHandler>
                               padding: const EdgeInsets.all(16.0),
                               child: Text(sendTaxiRequest),
                             )),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                      ],
+                    const SizedBox(
+                      height: 24,
                     ),
-                  ),
+                  ],
                 ),
               ),
-              _showQRCode
-                  ? Positioned(
-                  child: Center(
-                    child: CommuterQrCode(
-                      commuter: commuter!,
-                      onClose: () {
-                        setState(() {
-                          _showQRCode = false;
-                        });
-                      },
-                    ),
-                  ))
-                  : const SizedBox(),
-              busy
-                  ? const Positioned(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ))
-                  : const SizedBox(),
-            ],
+            ),
           ),
-        ));
+          _showQRCode
+              ? Positioned(
+                  child: Center(
+                  child: CommuterQrCode(
+                    commuter: commuter!,
+                    onClose: () {
+                      setState(() {
+                        _showQRCode = false;
+                      });
+                    },
+                  ),
+                ))
+              : const SizedBox(),
+          busy
+              ? const Positioned(
+                  child: Center(
+                  child: CircularProgressIndicator(),
+                ))
+              : const SizedBox(),
+        ],
+      ),
+    ));
   }
 }
 
 class BasicTimer extends StatefulWidget {
-  const BasicTimer({super.key});
+  const BasicTimer(
+      {super.key,
+      required this.showProgressIndicator,
+      required this.onShowQRCode});
+
+  final bool showProgressIndicator;
+  final Function onShowQRCode;
 
   @override
   State<BasicTimer> createState() => _BasicTimerState();
 }
 
 class _BasicTimerState extends State<BasicTimer> {
-
   late Timer timer;
   int elapsed = 0;
 
@@ -336,22 +344,39 @@ class _BasicTimerState extends State<BasicTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(height: 48,
+    return SizedBox(
+      height: 72,
       child: Card(
         elevation: 12,
         shape: getRoundedBorder(radius: 8),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            getFormattedTime(timeInSeconds: elapsed),
-            style: myTextStyleMediumLargeWithColor(
-                context, Theme
-                .of(context)
-                .primaryColor, 24),
+          padding: const EdgeInsets.all(16.0),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              widget.showProgressIndicator
+                  ?  SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 4,
+                        backgroundColor: Colors.pink.shade800,
+                      ),
+                    )
+                  : const SizedBox(),
+              widget.showProgressIndicator
+                  ? const SizedBox(
+                      width: 48,
+                    )
+                  : const SizedBox(),
+              Text(
+                getFormattedTime(timeInSeconds: elapsed),
+                style: myTextStyleMediumLargeWithColor(
+                    context, Theme.of(context).primaryColorLight, 24),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-

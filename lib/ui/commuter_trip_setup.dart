@@ -97,6 +97,7 @@ class CommuterTripSetupState extends State<CommuterTripSetup>
               longitude: loc.longitude,
               radiusInKM: 5 * 1000));
     }
+    routes.sort((a,b) => a.name!.compareTo(b.name!));
   }
 
   Future _getCities() async {
@@ -125,6 +126,8 @@ class CommuterTripSetupState extends State<CommuterTripSetup>
               longitude: loc.longitude,
               radiusInKM: 5 * 1000));
     }
+    routes.sort((a,b) => a.name!.compareTo(b.name!));
+
   }
 
   @override
@@ -141,6 +144,9 @@ class CommuterTripSetupState extends State<CommuterTripSetup>
   var whereWouldYou = 'Where would you like to go?';
   var taxiRoutesNearby = 'taxiRoutesNearby';
   var openRouteMap = 'Open Route Map';
+  var sendTaxiRequest = 'sendTaxiRequest';
+  var taxiRequest = 'Taxi Request';
+  var hours = 'Hours';
 
   Future _setTexts() async {
     final c = await prefs.getColorAndLocale();
@@ -155,7 +161,6 @@ class CommuterTripSetupState extends State<CommuterTripSetup>
     setState(() {});
   }
 
-
   void _navigateToHandler(lib.Route route) async {
     navigateWithScale(TaxiRequestHandler(route: route), context);
   }
@@ -163,9 +168,7 @@ class CommuterTripSetupState extends State<CommuterTripSetup>
   void _navigateToRouteMap(lib.Route route) async {
     navigateWithScale(CommuterRouteMap(route: route), context);
   }
-  var sendTaxiRequest = 'sendTaxiRequest';
-  var taxiRequest = 'Taxi Request';
-  var hours = 'Hours';
+
   List<FocusedMenuItem> _getMenuItems(lib.Route route, BuildContext context) {
     List<FocusedMenuItem> list = [];
 
@@ -191,7 +194,6 @@ class CommuterTripSetupState extends State<CommuterTripSetup>
           _navigateToHandler(route);
         }));
     //
-
     return list;
   }
 
